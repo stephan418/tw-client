@@ -12,7 +12,7 @@ export const useGlobalState: () => [GlobalState, GlobalStateSetter] = () => [
 ];
 
 export const GlobalStateProvider: React.FC = ({ children }) => {
-    const [globalState, dispatch] = useReducer(reducer, { users: {} });
+    const [globalState, dispatch] = useReducer(reducer, { users: {}, phase: 0 });
 
     return (
         <GlobalStateContext.Provider value={globalState}>

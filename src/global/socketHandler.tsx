@@ -4,6 +4,7 @@ import { useGlobalState } from './globalStateContext';
 
 interface SocketContextType {
     initializeConnection: Function;
+    activateRef: Function;
     connectionInitialized: boolean;
     connectionAlive: boolean;
 }
@@ -30,12 +31,33 @@ export const SocketHandler: React.FC = ({ children }) => {
         socket?.emit('update-progress', { typed });
     }
 
+    function activateRef(ref: string) {
+        socket?.emit('activate', { ref });
+    }
+
+    function startGame() {
+        if (globalState.leader) {
+            socket?.emit('start');
+            return true;
+        }
+
+        return false;
+    }
+
     useEffect(() => {
         if (socket) {
             socket.on('connect', () => console.info('Socket: SocketIO connection established'));
 
+            socket.on('activated', console.log);
+
             socket.on('joined', ({ username }: { username: string }) => {
                 dispatch({ type: 'addUser', payload: { username } });
+            });
+
+            socket.on('users', ({ usernames }: { usernames: string[] }) => {
+                for (const username of usernames) {
+                    dispatch({ type: 'addUser', payload: { username: username } });
+                }
             });
 
             socket.on('progress-update', (update: { username: string; typed: number }) => {
@@ -48,20 +70,21 @@ export const SocketHandler: React.FC = ({ children }) => {
 
             socket.on('started', ({ words }: { words: string[] }) => {
                 dispatch({ type: 'setText', payload: { text: words } });
+                dispatch({ type: 'nextPhase' });
             });
 
             socket.on('error', console.log);
 
             socket.on('disconnect', (reason: string) => {
                 setConnectionAlive(false);
-                console.info('Socket: Connection to server lost. Reason: ', reason);
+                console.warn('Socket: Connection to server lost. Reason: ', reason);
             });
         }
     }, [socket]);
 
     return (
         <SocketContext.Provider
-            value={{ initializeConnection, connectionInitialized: socket !== undefined, connectionAlive }}
+            value={{ activateRef, initializeConnection, connectionInitialized: socket !== undefined, connectionAlive }}
         >
             {children}
         </SocketContext.Provider>

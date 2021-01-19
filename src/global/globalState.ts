@@ -14,6 +14,8 @@ export interface GlobalState {
     text?: string[];
     phase?: number;
     users: Users;
+    client_username?: string;
+    leader?: boolean;
 }
 
 export type Action =
