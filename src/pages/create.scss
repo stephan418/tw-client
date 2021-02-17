@@ -1,0 +1,24 @@
+.create-container {
+    position: relative;
+    height: 20%;
+    width: fit-content;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template: 1fr / 5fr 1fr;
+    align-items: center;
+    column-gap: 5px;
+
+    .create-inline-message {
+        position: absolute;
+        bottom: -20px;
+        color: rgb(221, 123, 123);
+        font-weight: 200;
+        width: 100%;
+        text-align: center;
+    }
+
+    .button {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+}

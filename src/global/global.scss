@@ -1,0 +1,16 @@
+@function perceived-luminance($color) {
+    @return (red($color) * 0.299) + (green($color) * 0.587) + (blue($color) * 0.114);
+}
+
+@function black-or-white($color) {
+    $fit: white;
+    $result: perceived-luminance($color) / 255;
+
+    @debug 'Result: #{$result}';
+
+    @if $result > 0.73 {
+        $fit: black;
+    }
+
+    @return $fit;
+}

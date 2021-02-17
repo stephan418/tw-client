@@ -1,0 +1,35 @@
+.header-logo {
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: clamp(1.8rem, min(2vw, 5vh), 2.5rem);
+    user-select: none;
+    text-decoration: none;
+
+    .header-logo-green {
+        color: #32e875;
+    }
+
+    .header-logo-white {
+        color: white;
+    }
+    &:hover .header-logo-white {
+        animation: blink 300ms infinite;
+    }
+}
+
+.header {
+    padding-top: max(1.8vh, 0.2rem);
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes blink {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,18 @@
+@import 'global/theme.scss';
+@import 'global/global.scss';
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+
+    overflow: hidden;
+}
+
+#root {
+    background: $color-background;
+    font-family: $main-font-family;
+
+    display: grid;
+    grid-template: max(10vh, 40px) 1fr / 1fr;
+}

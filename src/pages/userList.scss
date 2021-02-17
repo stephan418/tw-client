@@ -1,0 +1,37 @@
+.race-container ol {
+    width: 90%;
+    margin-top: 4vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    li {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 10fr;
+        width: 100%;
+        align-items: center;
+
+        margin-top: 3%;
+
+        .progress-bar {
+            height: 3px;
+            background: #8c8e92;
+            position: relative;
+
+            .speed-handle {
+                position: absolute;
+                transform: translateX(-50%);
+                text-align: center;
+                color: #8c8e92;
+                font-style: italic;
+                font-size: 0.8em;
+                transition: left 200ms ease-in-out;
+
+                .eyedropper {
+                    width: 15px;
+                }
+            }
+        }
+    }
+}

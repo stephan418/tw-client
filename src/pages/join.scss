@@ -1,0 +1,40 @@
+.create-form-container {
+    position: relative;
+    height: 30%;
+    width: fit-content;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template: 1fr 1fr / 5fr 1fr;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.create-text-input-username {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+}
+
+.button {
+    grid-area: 2 / 2 / 3 / 3;
+
+    padding: 0.4em;
+    color: black;
+    border-radius: 0.3em;
+}
+
+.join-inline-message {
+    position: absolute;
+    bottom: -20px;
+    color: rgb(221, 123, 123);
+    font-weight: 200;
+    width: 100%;
+    text-align: center;
+}
+
+@media only screen and (max-height: 515px) {
+    .create-form-container {
+        height: 70%;
+        justify-content: center;
+    }
+}

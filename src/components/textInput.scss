@@ -1,0 +1,47 @@
+.text-input-container {
+    color: white;
+    position: relative;
+
+    input {
+        color: white;
+        background: none;
+        border: none;
+        border-bottom: 5px solid #32e875;
+        padding: 0.4em 0.5em;
+        font-size: clamp(1.2rem, 1.2vw, 2rem);
+        outline: none;
+
+        &:not(:placeholder-shown) + label,
+        &:focus + label {
+            transform: translateY(-100%) translateX(0.3em) scale(0.6);
+        }
+    }
+
+    &.locked {
+        pointer-events: none;
+        user-select: none;
+
+        input {
+            border-bottom: 5px solid darken(#eee, 50%);
+            cursor: default;
+            color: darken(#eee, 50%);
+        }
+
+        label {
+            cursor: default;
+            color: darken(#eee, 50%);
+        }
+    }
+
+    label {
+        color: #c6c7c9;
+        font-size: clamp(1rem, 1.2vw, 2rem);
+        position: absolute;
+        left: 0.5rem;
+        bottom: calc(0.4rem + 5px);
+        transform-origin: 0;
+        transition: transform 100ms ease-in-out;
+        cursor: text;
+        user-select: none;
+    }
+}

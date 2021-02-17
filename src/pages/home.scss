@@ -1,0 +1,21 @@
+.home-button-container {
+    height: 30%;
+    width: fit-content;
+    margin: 0 auto 50% auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .home-equal-button {
+        min-width: 100%;
+    }
+}
+
+@media only screen and (max-height: 515px) {
+    .home-button-container {
+        height: 70%;
+        margin-bottom: auto;
+    }
+}

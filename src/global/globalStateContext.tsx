@@ -3,7 +3,7 @@ import { Action, GlobalState, reducer } from './globalState';
 
 type GlobalStateSetter = React.Dispatch<Action>;
 
-const GlobalStateContext = React.createContext<GlobalState>({ users: {} });
+const GlobalStateContext = React.createContext<GlobalState>({ users: {}, phase: 0 });
 const GlobalStateSetContext = React.createContext<GlobalStateSetter>(() => undefined);
 
 export const useGlobalState: () => [GlobalState, GlobalStateSetter] = () => [
