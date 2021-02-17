@@ -32,7 +32,13 @@ interface WordInputProps {
     loading?: boolean;
 }
 
-const WordInput: React.FC<WordInputProps> = ({ onChange, value, wrong, waiting, loading }) => {
+const WordInput: React.FC<WordInputProps> = ({
+    onChange,
+    value,
+    wrong,
+    waiting,
+    loading,
+}) => {
     const input = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -45,7 +51,11 @@ const WordInput: React.FC<WordInputProps> = ({ onChange, value, wrong, waiting, 
         <>
             <input
                 type="text"
-                className={'word-input' + (wrong ? ' wrong' : ' correct') + (loading ? ' loading' : '')}
+                className={
+                    'word-input' +
+                    (wrong ? ' wrong' : ' correct') +
+                    (loading ? ' loading' : '')
+                }
                 onChange={onChange}
                 value={value}
                 disabled={loading}
@@ -65,20 +75,34 @@ interface UserListItemProps {
     finished?: boolean;
 }
 
-export const UserListItem: React.FC<UserListItemProps> = ({ username, speed, percent, operator, finished }) => {
-    console.log('username', finished);
+export const UserListItem: React.FC<UserListItemProps> = ({
+    username,
+    speed,
+    percent,
+    operator,
+    finished,
+}) => {
     return (
-        <motion.li layout transition={{ type: 'spring' }} animate={finished ? { scale: 0.9 } : {}}>
-            {username} <UserProgress speed={speed} percent={percent}></UserProgress>
+        <motion.li
+            layout
+            transition={{ type: 'spring' }}
+            animate={finished ? { scale: 0.9 } : {}}
+        >
+            {username}{' '}
+            <UserProgress speed={speed} percent={percent}></UserProgress>
         </motion.li>
     );
 };
 
-export const UserProgress: React.FC<{ speed: number; percent: number }> = ({ percent, speed }) => {
+export const UserProgress: React.FC<{ speed: number; percent: number }> = ({
+    percent,
+    speed,
+}) => {
     return (
         <div className="progress-bar">
             <div className="speed-handle" style={{ left: `${percent}%` }}>
-                <Eyedropper className="eyedropper" /> <br /> <span className="text">{Math.round(speed)} WPM</span>
+                <Eyedropper className="eyedropper" /> <br />{' '}
+                <span className="text">{Math.round(speed)} WPM</span>
             </div>
         </div>
     );
@@ -96,10 +120,18 @@ export const UserList: React.FC<UserListProps> = ({ users, textLength }) => {
                 .filter(([_, user]) => user.finished)
                 .sort((a, b) => (a[1].position || 0) - (b[1].position || 0))
                 .map(([username, { speed, typed, finished }]) => (
-                    <UserListItem key={username} percent={100} speed={speed} username={username} finished={true} />
+                    <UserListItem
+                        key={username}
+                        percent={100}
+                        speed={speed}
+                        username={username}
+                        finished={true}
+                    />
                 ))}
             {Object.entries(users)
-                .filter(([_, user]) => user.finished === undefined || !user.finished)
+                .filter(
+                    ([_, user]) => user.finished === undefined || !user.finished
+                )
                 .sort((a, b) => b[1].typed - a[1].typed)
                 .map(([username, { speed, typed, finished }]) => (
                     <UserListItem
@@ -126,9 +158,19 @@ export const Race: React.FC = () => {
     const socket = useSocketConnection();
     const history = useHistory();
 
-    if (!(globalState.users && globalState.clientUsername && socket?.connectionAlive)) {
+    if (
+        !(
+            globalState.users &&
+            globalState.clientUsername &&
+            socket?.connectionAlive
+        )
+    ) {
         return (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            >
                 <Redirect to="/" />
             </motion.div>
         );
@@ -140,11 +182,8 @@ export const Race: React.FC = () => {
         });
     }, []);
 
-    console.log('words:', length, 'simon:', length - words.join(' ').length);
-
     useEffect(() => {
         setWords(globalState.text || 'Hey'.split(' '));
-        console.log('globaltext', globalState.text);
 
         if (globalState.text) {
             setLength(globalState.text.join(' ').length);
@@ -168,12 +207,13 @@ export const Race: React.FC = () => {
 
     useEffect(() => {
         (window as any).words = words;
-        console.log('length: ', words.join(' ').length);
 
-        if (hasTyped && (length - words.join(' ').length) / length >= milestone / 100) {
-            console.log(words);
+        if (
+            hasTyped &&
+            (length - words.join(' ').length) / length >= milestone / 100
+        ) {
             socket?.updateProgress(length - words.join(' ').length);
-            setMilestone(p => p + 10);
+            setMilestone((p) => p + 10);
 
             if (schedule) {
                 clearInterval(schedule);
@@ -181,14 +221,20 @@ export const Race: React.FC = () => {
 
             setSchedule(
                 setInterval(() => {
-                    socket?.updateProgress(length - (window as any).words.join(' ').length);
+                    socket?.updateProgress(
+                        length - (window as any).words.join(' ').length
+                    );
                 }, 5000)
             );
         }
     }, [words]);
 
     useEffect(() => {
-        if (globalState.clientUsername && globalState.users[globalState.clientUsername].finished && schedule) {
+        if (
+            globalState.clientUsername &&
+            globalState.users[globalState.clientUsername].finished &&
+            schedule
+        ) {
             clearInterval(schedule);
         }
     }, [globalState.users[globalState.clientUsername || ''].finished]);
@@ -214,23 +260,29 @@ export const Race: React.FC = () => {
         <Page className="race-container">
             <WordPreview words={words} />
             <WordInput
-                loading={globalState.phase !== 2 || globalState.users[globalState.clientUsername || '']?.finished}
+                loading={
+                    globalState.phase !== 2 ||
+                    globalState.users[globalState.clientUsername || '']
+                        ?.finished
+                }
                 waiting={globalState.phase !== 2}
                 wrong={isWrong()}
                 value={input}
-                onChange={e => setInput(e.target.value)}
+                onChange={(e) => setInput(e.target.value)}
             />
             <UserList users={globalState.users} textLength={length} />
-            {globalState.leader && globalState.users[globalState.clientUsername || ''].finished && (
-                <Button
-                    className="restart-button"
-                    onClick={() => {
-                        socket?.resetRoom();
-                    }}
-                >
-                    Restart
-                </Button>
-            )}
+            {globalState.leader &&
+                globalState.users[globalState.clientUsername || '']
+                    .finished && (
+                    <Button
+                        className="restart-button"
+                        onClick={() => {
+                            socket?.resetRoom();
+                        }}
+                    >
+                        Restart
+                    </Button>
+                )}
         </Page>
     );
 };
