@@ -21,3 +21,28 @@ jobs:
        with:
         branch: gh-pages
         folder: dest
+
+
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ️files
+        uses: actions/checkout@v2.3.1
+
+      - name: Install dependencies and build 
+        run: |
+          npm i
+          npm run build
+
+      - name: Deploy page
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages
+          folder: dist
