@@ -64,15 +64,15 @@ export const Lobby: React.FC = () => {
 
     useEffect(() => {
         if (!id) {
-            history.push('/');
+            history.push('/tw-client/');
         } else if (!globalState.clientUsername) {
-            history.push('/join/' + id);
+            history.push('/tw-client/join/' + id);
         } else if (!globalState.ref) {
             register(globalState.clientUsername, id)
                 .then((json: any) => {
                     if (!json || json.type === 'error' || !json.type) {
                         console.error(json?.error);
-                        history.push('/');
+                        history.push('/tw-client/');
                     } else if (json.type === 'success') {
                         dispatch({
                             type: 'setRef',
@@ -82,7 +82,7 @@ export const Lobby: React.FC = () => {
                 })
                 .catch((e) => {
                     console.error(e);
-                    history.push('/');
+                    history.push('/tw-client/');
                 });
         } else {
             console.log(globalState.users);
@@ -120,7 +120,7 @@ export const Lobby: React.FC = () => {
 
     useEffect(() => {
         if (globalState.phase > 0) {
-            history.push('/race/' + id);
+            history.push('/tw-client/race/' + id);
         }
     }, [globalState.phase]);
 

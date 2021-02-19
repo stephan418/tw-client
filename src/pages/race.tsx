@@ -171,7 +171,7 @@ export const Race: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
             >
-                <Redirect to="/" />
+                <Redirect to="/tw-client/" />
             </motion.div>
         );
     }

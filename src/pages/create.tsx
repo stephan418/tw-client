@@ -28,7 +28,7 @@ export const Create: React.FC = () => {
                 } else {
                     dispatch({ type: 'setRef', payload: { ref: json.result.ref } });
                     dispatch({ type: 'setLeader', payload: { leader: true } });
-                    history.push('/lobby/' + json.result.game_id);
+                    history.push('/tw-client/lobby/' + json.result.game_id);
                 }
             });
         }

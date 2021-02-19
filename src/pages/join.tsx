@@ -29,7 +29,7 @@ export const Join: React.FC = () => {
             setUnsuccessfulSubmit(true);
         } else {
             dispatch({ type: 'setUsername', payload: { username: username } });
-            history.push('/lobby/' + raceId);
+            history.push('/tw-client/lobby/' + raceId);
         }
     }
 
