@@ -32,24 +32,24 @@ const App: React.FC = () => {
             <Header logo={<Logo />} />
             <AnimatePresence exitBeforeEnter>
                 <Switch location={location} key={location.pathname}>
-                    <Route exact path="/tw-client">
+                    <Route exact path="/">
                         <Home />
                     </Route>
-                    <Route exact path="/tw-client/join/:id?">
+                    <Route exact path="/join/:id?">
                         <Join />
                     </Route>
-                    <Route exact path="/tw-client/create">
+                    <Route exact path="/create">
                         <Create />
                     </Route>
-                    <Route exact path="/tw-client/lobby/:id?">
+                    <Route exact path="/lobby/:id?">
                         <Lobby />
                     </Route>
-                    <Route exact path="/tw-client/race/:id?">
+                    <Route exact path="/race/:id?">
                         <Race />
                     </Route>
                     <Route>
                         <motion.div exit={{ opacity: 0 }}>
-                            <Redirect to="/tw-client" />
+                            <Redirect to="/" />
                         </motion.div>
                     </Route>
                 </Switch>
