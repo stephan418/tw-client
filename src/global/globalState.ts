@@ -21,6 +21,7 @@ export interface GlobalState {
     clientUsername?: string;
     leader?: boolean;
     ref?: string;
+    serverHost?: string;
 }
 
 export type Action =
