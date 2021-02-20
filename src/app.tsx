@@ -12,6 +12,7 @@ import {
     useLocation,
     Link,
     Redirect,
+    HashRouter,
 } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Header, Logo } from './components/header';
@@ -60,9 +61,9 @@ const App: React.FC = () => {
 ReactDOM.render(
     <GlobalStateProvider>
         <SocketHandler>
-            <Router>
+            <HashRouter>
                 <App />
-            </Router>
+            </HashRouter>
         </SocketHandler>
     </GlobalStateProvider>,
     document.querySelector('#root')
