@@ -13,6 +13,7 @@ import {
     Link,
     Redirect,
     HashRouter,
+    useHistory,
 } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Header, Logo } from './components/header';
@@ -23,9 +24,22 @@ import { Join } from './pages/join';
 import { Lobby } from './pages/lobby';
 import { Create } from './pages/create';
 import { Race } from './pages/race';
+import { ServerChooser } from './pages/serverChooser';
 
 const App: React.FC = () => {
     const location = useLocation();
+    const [globalState, dispatch] = useGlobalState();
+    const history = useHistory();
+
+    useEffect(() => {
+        if (!globalState.serverHost && location.pathname !== '/choose-server') {
+            if (!globalState.continueTo) {
+                dispatch({ type: 'setContinueTo', payload: { continueTo: location.pathname } });
+            }
+
+            history.push('/choose-server');
+        }
+    }, [location.pathname]);
 
     return (
         <>
@@ -46,6 +60,9 @@ const App: React.FC = () => {
                     </Route>
                     <Route exact path="/race/:id?">
                         <Race />
+                    </Route>
+                    <Route exact path="/choose-server">
+                        <ServerChooser />
                     </Route>
                     <Route>
                         <motion.div exit={{ opacity: 0 }}>

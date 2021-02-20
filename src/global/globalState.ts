@@ -22,6 +22,7 @@ export interface GlobalState {
     leader?: boolean;
     ref?: string;
     serverHost?: string;
+    continueTo?: string;
 }
 
 export type Action =
@@ -85,6 +86,18 @@ export type Action =
           payload: {
               ts: number;
           };
+      } 
+    | {
+          type: 'setServerHost';
+          payload: {
+              serverHost: string;
+          };
+      }
+    | {
+        type: 'setContinueTo',
+        payload: {
+            continueTo: string | undefined;
+        };
       };
 
 export function reducer(state: GlobalState, action: Action): GlobalState {
@@ -165,6 +178,18 @@ export function reducer(state: GlobalState, action: Action): GlobalState {
             return {
                 ...state,
                 startTS: action.payload.ts,
+            };
+        
+        case 'setServerHost':
+            return {
+                ...state,
+                serverHost: action.payload.serverHost,
+            };
+
+        case 'setContinueTo':
+            return {
+                ...state,
+                continueTo: action.payload.continueTo,
             };
     }
 }
