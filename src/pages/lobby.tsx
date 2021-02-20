@@ -8,6 +8,7 @@ import { register } from '../util/api';
 import { Page } from './page';
 import './lobby.scss';
 import { Button } from '../components/button';
+import constants from '../global/constants'
 
 const listItemVariants: Variants = {
     initial: {
@@ -68,7 +69,7 @@ export const Lobby: React.FC = () => {
         } else if (!globalState.clientUsername) {
             history.push('/join/' + id);
         } else if (!globalState.ref) {
-            register(globalState.clientUsername, id)
+            register(globalState.clientUsername, id, globalState.serverHost || constants.SERVER_NAME)
                 .then((json: any) => {
                     if (!json || json.type === 'error' || !json.type) {
                         console.error(json?.error);
