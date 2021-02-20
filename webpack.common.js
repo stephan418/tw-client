@@ -30,7 +30,6 @@ const reactConfig = {
     output: {
         path: __dirname + '/dist',
         filename: 'app.js',
-        publicPath: './',
     },
     plugins: [
         new HtmlWebpackPlugin({

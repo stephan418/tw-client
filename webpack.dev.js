@@ -6,6 +6,9 @@ const reactConfig = merge(commonReactConfig, {
     devServer: {
         historyApiFallback: true,
     },
+    output: {
+        publicPath: '/',
+    }
 });
 
 module.exports = [reactConfig];
