@@ -8,6 +8,7 @@ import { useGlobalState } from '../global/globalStateContext';
 import { create } from '../util/api';
 import { Page } from './page';
 import './create.scss';
+import constants from '../global/constants'
 
 export const Create: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -22,7 +23,7 @@ export const Create: React.FC = () => {
             setUnsuccessfulSubmit(true);
         } else {
             dispatch({ type: 'setUsername', payload: { username } });
-            create(username).then((json: any) => {
+            create(username, globalState.serverHost || constants.SERVER_NAME).then((json: any) => {
                 if (!json || json.type !== 'success') {
                     console.error(json);
                 } else {

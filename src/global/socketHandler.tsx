@@ -36,7 +36,7 @@ export const SocketHandler: React.FC = ({ children }) => {
 
     function initializeConnection(force = false) {
         if (!socket || force) {
-            setSocket(io(`http://${constants.SERVER_NAME}:${constants.SERVER_PORT}`));
+            setSocket(io(`http://${globalState.serverHost || constants.SERVER_NAME}:${constants.SERVER_PORT}`));
             setConnectionAlive(true);
         }
     }

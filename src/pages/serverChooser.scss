@@ -1,0 +1,25 @@
+.server-chooser .grid {
+    position: relative;
+    height: 20%;
+    width: fit-content;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template: 1fr / 5fr 1fr;
+    align-items: center;
+    column-gap: 5px;
+
+
+    .button {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+}
+
+.server-chooser {
+    h2 {
+        color: white;
+        font-weight: lighter;
+        width: 100%;
+        text-align: center;
+    }
+}
