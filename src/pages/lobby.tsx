@@ -93,7 +93,7 @@ export const Lobby: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (!socket?.connectionInitialized) {
+        if (!socket?.connectionInitialized && globalState.clientUsername) {
             socket?.initializeConnection(globalState.serverHost);
         }
 
