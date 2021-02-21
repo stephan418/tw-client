@@ -32,14 +32,39 @@ const App: React.FC = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if (!globalState.serverHost && location.pathname !== '/choose-server') {
+        const params = new URLSearchParams(location.search);
+        let config = params.get('c');
+
+        if (config) {
+            try {
+                console.log(config.replace(/-/g, '=').replace(/_/g, '+'));
+                config = atob(config.replace(/-/g, '=').replace(/_/g, '+'));
+
+                let serverHost = config.split(';')[0];
+                dispatch({ type: 'setServerHost', payload: { serverHost } });
+            } catch (e) {
+                console.log(e);
+                params.delete('c');
+                history.push({ search: params.toString() });
+                config = null;
+            }
+        } else if (!globalState.serverHost && location.pathname !== '/choose-server') {
             if (!globalState.continueTo) {
                 dispatch({ type: 'setContinueTo', payload: { continueTo: location.pathname } });
             }
 
             history.push('/choose-server');
+        } else if (globalState.serverHost) {
+            params.append('c', 
+                btoa(
+                    `${globalState.serverHost};${Math.round(new Date().getTime())}`)
+                        .replace(/\=/g, '-')
+                        .replace(/\+/g, '_')
+                        );
+
+            history.replace({ pathname: location.pathname, search: params.toString() });
         }
-    }, [location.pathname]);
+    }, [location.pathname, location.search]);
 
     return (
         <>

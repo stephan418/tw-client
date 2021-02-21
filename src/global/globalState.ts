@@ -106,7 +106,7 @@ export function reducer(state: GlobalState, action: Action): GlobalState {
             return { ...state, users: { ...state.users, [action.payload.username]: { typed: 0, speed: 0 } } };
 
         case 'reset':
-            return { users: {}, phase: 0 };
+            return { users: {}, phase: 0, serverHost: state.serverHost };
 
         case 'resetTyping':
             let users = {};
