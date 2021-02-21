@@ -1,0 +1,48 @@
+@import '../global/theme.scss';
+
+.banner {
+    position: absolute;
+    bottom: 0;
+    display: grid;
+    grid-template: 1fr / 7fr 1fr;
+    justify-content: center;
+    align-items: center;
+    background: $color-primary;
+
+    width: 100%;
+    max-height: 30%;
+
+    & svg {
+        max-height: 40px;
+        margin: 0 auto;
+        align-self: center;
+    }
+
+    .content {
+        padding: 0 3%;
+    }
+
+    .close {
+        height: 100%;
+        display: flex;
+        cursor: pointer;
+        transition: background 200ms, fill 200ms;
+
+        &::before {
+            position: absolute;
+            content: '';
+            width: 1px;
+            height: 60%;
+            display: block;
+            top: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            background: black;
+        }
+
+        &:hover {
+            background: $color-close;
+            color: white;
+            fill: white;
+        }
+    }
+}

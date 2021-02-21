@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RouterButtonLink } from '../components/button';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { pageAnimations } from '../global/animate';
 import { Page } from './page';
 import './home.scss';
+import { Banner } from '../components/banner';
 
 export const Home: React.FC = () => {
     return (
