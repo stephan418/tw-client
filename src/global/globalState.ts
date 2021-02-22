@@ -29,7 +29,7 @@ export interface GlobalState {
     serverHost?: string;
     linkTS?: number;
     continueTo?: string;
-    wordLists?: string;
+    wordLists?: WordListNames[];
 }
 
 export type Action =
