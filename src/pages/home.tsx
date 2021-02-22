@@ -5,6 +5,7 @@ import { pageAnimations } from '../global/animate';
 import { Page } from './page';
 import './home.scss';
 import { Banner } from '../components/banner';
+import { Dropdown } from '../components/dropdown';
 
 export const Home: React.FC = () => {
     return (

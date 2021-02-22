@@ -9,6 +9,7 @@ import { Page } from './page';
 import './lobby.scss';
 import { Button } from '../components/button';
 import constants from '../global/constants';
+import { Dropdown } from '../components/dropdown';
 
 const listItemVariants: Variants = {
     initial: {
@@ -48,20 +49,16 @@ const Prerace: React.FC = () => {
                             Copy invite
                         </Button>
                         <Button onClick={() => socket?.startGame(globalState.wordListName)}>Start game!</Button>
-                        <select
-                            value={globalState.wordListName}
-                            onChange={e =>
-                                dispatch({ type: 'setWordListName', payload: { wordListName: e.target.value } })
+                        <Dropdown
+                            value={globalState.wordListName || 'default'}
+                            onChange={n => dispatch({ type: 'setWordListName', payload: { wordListName: n } })}
+                            name="wordListSelect"
+                            options={
+                                globalState.wordLists?.map(({ name, commonName }) => {
+                                    return { value: name, display: commonName };
+                                }) || [{ value: 'default', display: 'Default' }]
                             }
-                        >
-                            {!globalState.wordLists ? (
-                                <option value="default">Default</option>
-                            ) : (
-                                globalState.wordLists.map(({ name, commonName }) => (
-                                    <option value={name}>{commonName}</option>
-                                ))
-                            )}
-                        </select>
+                        />
                     </>
                 ) : (
                     <Loader speed={300}>Waiting for leader to start</Loader>

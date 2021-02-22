@@ -92,3 +92,12 @@
         }
     }
 }
+
+.prerace-settings .dropdown-container .dropdown-value {
+    font-size: clamp(1rem, 1vw, 2.5rem);
+}
+
+.prerace-settings .dropdown-container {
+    min-width: 50%;
+    margin: 3% auto;
+}
