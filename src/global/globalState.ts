@@ -12,6 +12,11 @@ export interface Users {
     [username: string]: User;
 }
 
+export interface WordListNames {
+    name: string;
+    commonName: string;
+}
+
 export interface GlobalState {
     game_id?: string;
     text?: string[];
@@ -24,6 +29,7 @@ export interface GlobalState {
     serverHost?: string;
     linkTS?: number;
     continueTo?: string;
+    wordLists?: string;
 }
 
 export type Action =
@@ -104,6 +110,12 @@ export type Action =
           type: 'setContinueTo';
           payload: {
               continueTo: string | undefined;
+          };
+      }
+    | {
+          type: 'setWordLists';
+          payload: {
+              wordLists: WordListNames[];
           };
       };
 
@@ -203,6 +215,12 @@ export function reducer(state: GlobalState, action: Action): GlobalState {
             return {
                 ...state,
                 continueTo: action.payload.continueTo,
+            };
+
+        case 'setWordLists':
+            return {
+                ...state,
+                wordLists: action.payload.wordLists,
             };
     }
 }

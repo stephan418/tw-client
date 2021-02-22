@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useGlobalState } from './globalStateContext';
 import constants from '../global/constants';
+import { WordListNames } from '../global/globalState';
 
 type SocketEvent = 'roomReset';
 
@@ -20,9 +21,7 @@ interface SocketContextType {
     connectionAlive: boolean;
 }
 
-const SocketContext = React.createContext<SocketContextType | undefined>(
-    undefined
-);
+const SocketContext = React.createContext<SocketContextType | undefined>(undefined);
 
 export function useSocketConnection(): SocketContextType | undefined {
     return useContext(SocketContext);
@@ -73,7 +72,7 @@ export const SocketHandler: React.FC = ({ children }) => {
     }
 
     function addEventListener(e: SocketEvent, f: Function) {
-        setListeners((p) => {
+        setListeners(p => {
             return { ...p, [e]: p[e] ? p[e]?.concat(f) : [f] };
         });
     }
@@ -86,9 +85,7 @@ export const SocketHandler: React.FC = ({ children }) => {
 
     useEffect(() => {
         if (socket) {
-            socket.on('connect', () =>
-                console.info('Socket: SocketIO connection established')
-            );
+            socket.on('connect', () => console.info('Socket: SocketIO connection established'));
 
             socket.on('activated', ({ username }: { username: string }) => {
                 dispatch({ type: 'addUser', payload: { username } });
@@ -107,23 +104,20 @@ export const SocketHandler: React.FC = ({ children }) => {
                 }
             });
 
-            socket.on(
-                'progress-update',
-                (update: {
-                    username: string;
-                    typed: number;
-                    speed: number;
-                }) => {
-                    dispatch({
-                        type: 'updateTyped',
-                        payload: {
-                            username: update.username,
-                            typed: update.typed,
-                            speed: update.speed,
-                        },
-                    });
-                }
-            );
+            socket.on('word-lists', ({ lists }: { lists: WordListNames[] }) => {
+                dispatch({ type: 'setWordLists', payload: { wordLists: lists } });
+            });
+
+            socket.on('progress-update', (update: { username: string; typed: number; speed: number }) => {
+                dispatch({
+                    type: 'updateTyped',
+                    payload: {
+                        username: update.username,
+                        typed: update.typed,
+                        speed: update.speed,
+                    },
+                });
+            });
 
             socket.on('starting', (args: { in: number; words: string[] }) => {
                 dispatch({ type: 'setText', payload: { text: args.words } });
@@ -138,31 +132,19 @@ export const SocketHandler: React.FC = ({ children }) => {
                 });
             });
 
-            socket.on(
-                'finished-typing',
-                ({
-                    username,
-                    position,
-                }: {
-                    username: string;
-                    position: number;
-                }) => {
-                    console.log('finished', position);
-                    dispatch({
-                        type: 'updateFinished',
-                        payload: { username, finished: true, position },
-                    });
-                }
-            );
+            socket.on('finished-typing', ({ username, position }: { username: string; position: number }) => {
+                console.log('finished', position);
+                dispatch({
+                    type: 'updateFinished',
+                    payload: { username, finished: true, position },
+                });
+            });
 
             socket.on('error', console.log);
 
             socket.on('disconnect', (reason: string) => {
                 setConnectionAlive(false);
-                console.warn(
-                    'Socket: Connection to server lost. Reason: ',
-                    reason
-                );
+                console.warn('Socket: Connection to server lost. Reason: ', reason);
             });
         }
     }, [socket]);
