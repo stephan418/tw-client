@@ -37,14 +37,12 @@ const App: React.FC = () => {
 
         if (config) {
             try {
-                console.log(config.replace(/-/g, '=').replace(/_/g, '+'));
                 config = atob(config.replace(/-/g, '=').replace(/_/g, '+'));
 
                 let serverHost = config.split(';')[0];
                 let linkTS = parseInt(config.split(';')[1]);
                 dispatch({ type: 'setServerHost', payload: { serverHost } });
                 dispatch({ type: 'setLinkTS', payload: { linkTS } });
-                console.log('ehre');
             } catch (e) {
                 params.delete('c');
                 history.push({ search: params.toString() });
@@ -57,7 +55,6 @@ const App: React.FC = () => {
 
             history.push('/choose-server');
         } else if (globalState.serverHost) {
-            console.log('ehre33');
             params.append(
                 'c',
                 btoa(`${globalState.serverHost};${globalState.linkTS || Math.round(new Date().getTime() / 1000)}`)
