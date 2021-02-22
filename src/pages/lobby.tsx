@@ -101,8 +101,6 @@ export const Lobby: React.FC = () => {
                     console.error(e);
                     history.push('/');
                 });
-        } else {
-            console.log(globalState.users);
         }
 
         return () => dispatch({ type: 'setRef', payload: { ref: '' } });
