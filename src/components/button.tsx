@@ -29,13 +29,14 @@ export const RouterButtonLink: React.FC<ButtonLinkProps> = ({ children, href, se
 interface ButtonProps {
     className?: string;
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    secondary?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => {
+export const Button: React.FC<ButtonProps> = ({ children, className, onClick, secondary }) => {
     const userClasses = className ? ' ' + className : '';
 
     return (
-        <button onClick={onClick} className={'button' + userClasses}>
+        <button onClick={onClick} className={'button' + userClasses + (secondary ? ' secondary' : ' primary')}>
             {children}
         </button>
     );

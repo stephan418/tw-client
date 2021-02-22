@@ -53,9 +53,9 @@ export const SocketHandler: React.FC = ({ children }) => {
         socket?.emit('activate', { ref });
     }
 
-    function startGame() {
+    function startGame(wordListName?: string) {
         if (globalState.leader) {
-            socket?.emit('start');
+            socket?.emit('start', { listName: wordListName });
             return true;
         }
 
@@ -150,15 +150,17 @@ export const SocketHandler: React.FC = ({ children }) => {
     }, [socket]);
 
     useEffect(() => {
+        socket?.off('room-reset');
+
         socket?.on('room-reset', () => {
             if (globalState.leader) {
-                startGame();
+                startGame(globalState.wordListName);
             }
 
             dispatch({ type: 'resetTyping' });
             dispatchEvent('roomReset');
         });
-    }, [socket, listeners]);
+    }, [socket, listeners, globalState.wordListName]);
 
     return (
         <SocketContext.Provider

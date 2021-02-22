@@ -30,6 +30,7 @@ export interface GlobalState {
     linkTS?: number;
     continueTo?: string;
     wordLists?: WordListNames[];
+    wordListName?: string;
 }
 
 export type Action =
@@ -117,6 +118,12 @@ export type Action =
           payload: {
               wordLists: WordListNames[];
           };
+      }
+    | {
+          type: 'setWordListName';
+          payload: {
+              wordListName: string;
+          };
       };
 
 export function reducer(state: GlobalState, action: Action): GlobalState {
@@ -150,7 +157,6 @@ export function reducer(state: GlobalState, action: Action): GlobalState {
             };
 
         case 'updateFinished':
-            console.log('udpated', action.payload.username, action.payload.finished);
             return {
                 ...state,
                 users: {
@@ -221,6 +227,12 @@ export function reducer(state: GlobalState, action: Action): GlobalState {
             return {
                 ...state,
                 wordLists: action.payload.wordLists,
+            };
+
+        case 'setWordListName':
+            return {
+                ...state,
+                wordListName: action.payload.wordListName,
             };
     }
 }

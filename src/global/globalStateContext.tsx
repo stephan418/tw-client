@@ -3,7 +3,7 @@ import { Action, GlobalState, reducer } from './globalState';
 
 type GlobalStateSetter = React.Dispatch<Action>;
 
-const GlobalStateContext = React.createContext<GlobalState>({ users: {}, phase: 0 });
+const GlobalStateContext = React.createContext<GlobalState>({ users: {}, phase: 0, wordListName: 'default' });
 const GlobalStateSetContext = React.createContext<GlobalStateSetter>(() => undefined);
 
 export const useGlobalState: () => [GlobalState, GlobalStateSetter] = () => [
@@ -12,7 +12,7 @@ export const useGlobalState: () => [GlobalState, GlobalStateSetter] = () => [
 ];
 
 export const GlobalStateProvider: React.FC = ({ children }) => {
-    const [globalState, dispatch] = useReducer(reducer, { users: {}, phase: 0 });
+    const [globalState, dispatch] = useReducer(reducer, { users: {}, phase: 0, wordListName: 'default' });
 
     return (
         <GlobalStateContext.Provider value={globalState}>

@@ -8,7 +8,7 @@ import { register } from '../util/api';
 import { Page } from './page';
 import './lobby.scss';
 import { Button } from '../components/button';
-import constants from '../global/constants'
+import constants from '../global/constants';
 
 const listItemVariants: Variants = {
     initial: {
@@ -20,37 +20,53 @@ const listItemVariants: Variants = {
 };
 
 const Prerace: React.FC = () => {
-    const [globalState, _] = useGlobalState();
+    const [globalState, dispatch] = useGlobalState();
     const socket = useSocketConnection();
 
     return (
         <>
-            <h2>Joined:</h2>
-            {globalState.users && (
-                <motion.ul
-                    key="prerace"
-                    className="prerace"
-                    initial="initial"
-                    animate="in"
-                >
-                    {Object.entries(globalState.users).map(([n, user]) => {
-                        return (
-                            <motion.li
-                                variants={listItemVariants}
-                                className="racer"
-                                key={n}
-                            >
+            <div className="prerace-lobby">
+                <h2 className="tile-title">Participants</h2>
+                {globalState.users && (
+                    <motion.ul key="user-list" className="user-list" initial="initial" animate="in">
+                        {Object.entries(globalState.users).map(([n, user]) => (
+                            <motion.li variants={listItemVariants} className="racer" key={n}>
                                 {n}
                             </motion.li>
-                        );
-                    })}
-                </motion.ul>
-            )}
-            {globalState.leader ? (
-                <Button onClick={() => socket?.startGame()}>Start game!</Button>
-            ) : (
-                <Loader speed={300}>Waiting for leader to start</Loader>
-            )}
+                        ))}
+                    </motion.ul>
+                )}
+            </div>
+
+            <div className="seperator-line"></div>
+
+            <div className="prerace-settings">
+                <h2 className="tile-title">Race</h2>
+                {globalState.leader ? (
+                    <>
+                        <Button secondary onClick={() => console.log('Copy into clipboard')}>
+                            Copy invite
+                        </Button>
+                        <Button onClick={() => socket?.startGame(globalState.wordListName)}>Start game!</Button>
+                        <select
+                            value={globalState.wordListName}
+                            onChange={e =>
+                                dispatch({ type: 'setWordListName', payload: { wordListName: e.target.value } })
+                            }
+                        >
+                            {!globalState.wordLists ? (
+                                <option value="default">Default</option>
+                            ) : (
+                                globalState.wordLists.map(({ name, commonName }) => (
+                                    <option value={name}>{commonName}</option>
+                                ))
+                            )}
+                        </select>
+                    </>
+                ) : (
+                    <Loader speed={300}>Waiting for leader to start</Loader>
+                )}
+            </div>
         </>
     );
 };
@@ -81,7 +97,7 @@ export const Lobby: React.FC = () => {
                         });
                     }
                 })
-                .catch((e) => {
+                .catch(e => {
                     console.error(e);
                     history.push('/');
                 });
@@ -103,21 +119,10 @@ export const Lobby: React.FC = () => {
     }, [globalState.ref, socket?.connectionAlive]);
 
     useEffect(() => {
-        if (
-            globalState.clientUsername &&
-            globalState.clientUsername in globalState.users
-        ) {
+        if (globalState.clientUsername && globalState.clientUsername in globalState.users) {
             setLoading(false);
         }
     }, [globalState.users]);
-
-    let render = <Loader />;
-
-    if (globalState.phase !== 0 && !loading) {
-        render = <h2>Racetrack :D</h2>;
-    } else if (!loading) {
-        render = <Prerace />;
-    }
 
     useEffect(() => {
         if (globalState.phase > 0) {
@@ -126,7 +131,7 @@ export const Lobby: React.FC = () => {
     }, [globalState.phase]);
 
     return (
-        <Page className="race-container">
+        <Page className="lobby-container">
             {!loading && <Prerace />}
             {loading && <Loader />}
         </Page>

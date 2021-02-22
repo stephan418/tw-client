@@ -5,6 +5,7 @@
     height: 100%;
     overflow: hidden;
     width: 85%;
+    margin: 0 auto;
 
     display: grid;
     grid-template: 1fr 0.6fr 7fr / 1fr;
@@ -22,6 +23,19 @@
         bottom: 10px;
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    .loader {
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 2rem;
+
+        .dots {
+            color: #32e875;
+        }
     }
 }
 

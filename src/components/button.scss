@@ -54,4 +54,14 @@
     &:focus:not(:active) {
         outline: auto;
     }
+
+    &.secondary {
+        background: transparentize($color: $color-primary, $amount: 0.8);
+        border: 6px solid $color-primary;
+        color: white;
+
+        &:hover {
+            background: transparentize($color: #32e875, $amount: 0.6);
+        }
+    }
 }
